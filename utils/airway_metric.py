@@ -16,14 +16,6 @@ def compute_binary_iou(y_true, y_pred):
     iou = intersection / union
     return iou
 
-
-def compute_binary_dice(y_true, y_pred):
-    intersection = 2*y_true * y_pred
-    union = y_true + y_pred
-    dice = (np.sum(intersection) + EPSILON) / (np.sum(union) + EPSILON)
-    return dice
-
-
 def evaluation_branch_metrics(fid,label, pred,refine=False):
     """
     :return: iou,dice, detected length ratio, detected branch ratio,
@@ -49,11 +41,9 @@ def evaluation_branch_metrics(fid,label, pred,refine=False):
     skeleton = (skeleton > 0)
     skeleton = skeleton.astype('uint8')
 
-    dice = compute_binary_dice(label, large_cd)
     DLR = (large_cd * skeleton).sum() / skeleton.sum()
-    pre = (large_cd * label).sum() / large_cd.sum()
+    precision = (large_cd * label).sum() / large_cd.sum()
     leakages = ((large_cd - label)==1).sum() / label.sum()
-    FNR = ((label - large_cd)==1).sum() / label.sum()
 
     num_branch = parsing_gt.max()
     detected_num = 0
@@ -62,4 +52,4 @@ def evaluation_branch_metrics(fid,label, pred,refine=False):
         if (large_cd * branch_label).sum() / branch_label.sum() >= 0.8:
             detected_num += 1
     DBR = detected_num / num_branch
-    return iou,dice, DLR, DBR, pre, leakages, FNR, large_cd
+    return iou, DLR, DBR, precision, leakages

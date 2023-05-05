@@ -8,7 +8,7 @@ Release the evaluation metrics.
 release the FANN code when the paper is accepted.  
 ## Reproduce the work in the paper
 The file format must be *.nii.gz  
-1. Download the docker file through (no available at the moment due to AIB23)
+1. Download the docker file through (no available at the moment due to AIIB23)
 ```https://drive.google.com/file/d/1K3JZsEOVBYX1QCnhNhrW6xOFwcZJrlwu/view?usp=sharing```  
 2. Use the docker file for prediction  
 ```docker image load < yang.tar.gz```  
